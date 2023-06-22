@@ -104,7 +104,7 @@ public class OrderRepository {
     }
 
     public void deletePartnerById(String partnerId) {
-        if(!partnersMap.containsKey(partnerId)) {
+        if(partnersMap.containsKey(partnerId)) {
             if (partnersMap.get(partnerId).getNumberOfOrders() > 0) {
                 List<String> orders = partnerOrderMap.get(partnerId);
 
@@ -123,19 +123,21 @@ public class OrderRepository {
     }
 
     public void deleteOrderById(String orderId) {
-        String partnerId = orderPartnerMap.get(orderId);
-        if(partnerId != null) {
-            //Remove from Order-Partner Map
-            orderPartnerMap.remove(orderId);
+        if(ordersMap.containsKey(orderId)) {
+            String partnerId = orderPartnerMap.get(orderId);
+            if (partnerId != null) {
+                //Remove from Order-Partner Map
+                orderPartnerMap.remove(orderId);
 
-            //Remove form Partner-Order Map
-            partnerOrderMap.get(partnerId).remove(orderId);
-            int currOrder = partnersMap.get(partnerId).getNumberOfOrders();
-            partnersMap.get(partnerId).setNumberOfOrders(currOrder - 1);
+                //Remove form Partner-Order Map
+                partnerOrderMap.get(partnerId).remove(orderId);
+                int currOrder = partnersMap.get(partnerId).getNumberOfOrders();
+                partnersMap.get(partnerId).setNumberOfOrders(currOrder - 1);
 
+            }
+
+            //Remove from Orders Map
+            ordersMap.remove(orderId);
         }
-
-        //Remove from Orders Map
-        ordersMap.remove(orderId);
     }
 }
