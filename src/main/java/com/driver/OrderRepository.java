@@ -60,6 +60,8 @@ public class OrderRepository {
     }
 
     public Integer getOrderCountByPartnerId(String partnerId) {
+        if(!partnersMap.containsKey(partnerId))
+            return 0;
         return partnersMap.get(partnerId).getNumberOfOrders();
     }
 
@@ -102,20 +104,22 @@ public class OrderRepository {
     }
 
     public void deletePartnerById(String partnerId) {
-        if(partnersMap.get(partnerId).getNumberOfOrders() > 0) {
-            List<String> orders = partnerOrderMap.get(partnerId);
+        if(!partnersMap.containsKey(partnerId)) {
+            if (partnersMap.get(partnerId).getNumberOfOrders() > 0) {
+                List<String> orders = partnerOrderMap.get(partnerId);
 
-            //Remove from Partner-Order Map
-            partnerOrderMap.remove(partnerId);
+                //Remove from Partner-Order Map
+                partnerOrderMap.remove(partnerId);
 
-            //Remove from Order-Partner Map
-            for(String order : orders){
-                orderPartnerMap.remove(order);
+                //Remove from Order-Partner Map
+                for (String order : orders) {
+                    orderPartnerMap.remove(order);
+                }
             }
-        }
 
-        //Remove from Partner Map
-        partnersMap.remove(partnerId);
+            //Remove from Partner Map
+            partnersMap.remove(partnerId);
+        }
     }
 
     public void deleteOrderById(String orderId) {
