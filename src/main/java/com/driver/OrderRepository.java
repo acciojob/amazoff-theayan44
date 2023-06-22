@@ -61,7 +61,7 @@ public class OrderRepository {
 
     public Integer getOrderCountByPartnerId(String partnerId) {
         if(!partnersMap.containsKey(partnerId))
-            return 0;
+            return Integer.valueOf(0);
         return partnersMap.get(partnerId).getNumberOfOrders();
     }
 
@@ -100,7 +100,7 @@ public class OrderRepository {
             if(ordersMap.get(orderId).getDeliveryTime() > givenTime)
                 count++;
         }
-        return count;
+        return Integer.valueOf(count);
     }
 
     public void deletePartnerById(String partnerId) {
