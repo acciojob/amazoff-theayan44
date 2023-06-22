@@ -61,7 +61,7 @@ public class OrderRepository {
 
     public Integer getOrderCountByPartnerId(String partnerId) {
         if(!partnersMap.containsKey(partnerId))
-            return Integer.valueOf(0);
+            return null;
         return partnersMap.get(partnerId).getNumberOfOrders();
     }
 
