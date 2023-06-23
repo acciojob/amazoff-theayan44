@@ -24,14 +24,14 @@ public class OrderController {
 
     @PostMapping("/add-order")
     public ResponseEntity<String> addOrder(@RequestBody Order order){
-        String s =  new OrderService().addOrder(order);
-        return new ResponseEntity<>(s, HttpStatus.CREATED);
+        new OrderService().addOrder(order);
+        return new ResponseEntity<>("New order added successfully", HttpStatus.CREATED);
     }
 
     @PostMapping("/add-partner/{partnerId}")
     public ResponseEntity<String> addPartner(@PathVariable String partnerId){
-        String s = new OrderService().addPartner(partnerId);
-        return new ResponseEntity<>(s, HttpStatus.CREATED);
+        new OrderService().addPartner(partnerId);
+        return new ResponseEntity<>("New delivery partner added successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/add-order-partner-pair")

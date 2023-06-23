@@ -18,20 +18,16 @@ public class OrderRepository {
     HashMap<String, String> orderPartnerMap = new HashMap<>();
 
     //for storing the orders list assigned to a specific partner --> <PartnerId, List<OrdersId>>
-    HashMap<String, ArrayList<String>> partnerOrderMap = new HashMap<>();
+    HashMap<String, List<String>> partnerOrderMap = new HashMap<>();
 
-    public String addOrder(Order order) {
+    public void addOrder(Order order) {
         //Add this order in the Orders Map
-        String orderId = order.getId();
-        ordersMap.put(orderId, order);
-        return "New order added successfully";
+        ordersMap.put(order.getId(), order);
     }
 
-    public String addPartner(String partnerId) {
+    public void addPartner(String partnerId) {
         //Add this partner in the Partners Map
-        DeliveryPartner newPartner = new DeliveryPartner(partnerId);
-        partnersMap.put(partnerId, newPartner);
-        return "New delivery partner added successfully";
+        partnersMap.put(partnerId, new DeliveryPartner(partnerId));
     }
 
     public void addOrderPartnerPair(String orderId, String partnerId) {
@@ -41,13 +37,17 @@ public class OrderRepository {
             orderPartnerMap.put(orderId, partnerId);
 
             //Now Add this pair in the Partner-Orders Map
-            if (!partnerOrderMap.containsKey(partnerId))
-                partnerOrderMap.put(partnerId, new ArrayList<>());
-            partnerOrderMap.get(partnerId).add(orderId);
+            List<String> currentOrders = new ArrayList<>();
+
+            if (partnerOrderMap.containsKey(partnerId))
+                currentOrders = partnerOrderMap.get(partnerId);
+
+            currentOrders.add(orderId);
+            partnerOrderMap.put(partnerId, currentOrders);
 
             //now update the number of order count of that particular partner
-            int currOrder = partnersMap.get(partnerId).getNumberOfOrders();
-            partnersMap.get(partnerId).setNumberOfOrders(currOrder + 1);
+            DeliveryPartner deliveryPartner = partnersMap.get(partnerId);
+            deliveryPartner.setNumberOfOrders(currentOrders.size());
         }
     }
 

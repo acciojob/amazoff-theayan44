@@ -9,12 +9,12 @@ import java.util.List;
 public class OrderService {
 //    @Autowired
 //    OrderRepository orderRepository;
-    public String addOrder(Order order) {
-        return new OrderRepository().addOrder(order);
+    public void addOrder(Order order) {
+        new OrderRepository().addOrder(order);
     }
 
-    public String addPartner(String partnerId) {
-        return new OrderRepository().addPartner(partnerId);
+    public void addPartner(String partnerId) {
+        new OrderRepository().addPartner(partnerId);
     }
 
     public void addOrderPartnerPair(String orderId, String partnerId) {
